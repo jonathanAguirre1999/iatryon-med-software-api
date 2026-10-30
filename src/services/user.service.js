@@ -1,4 +1,10 @@
 import { User } from "../models/user.model.js";
+import bcrypt from "bcrypt";
+import {
+  NotFoundError,
+  BadRequestError,
+  ValidationError,
+} from "../errors/app.error.js";
 
 //get
 export async function getUserById(id) {
@@ -8,14 +14,17 @@ export async function getUserById(id) {
 }
 
 //getall
-export async function getAllUsers() {
-  return await User.find();
+export function getAllUsers() {
+  return User.find();
 }
 
 //post
 export async function createUser(userData) {
-  if (!userData) throw new BadRequestError("Datos de usuario inválidos");
-  return await User.create(userData);
+  if (!userData || Object.keys(userData).length === 0)
+    throw new BadRequestError("Datos de usuario inválidos");
+
+  const passwordHash = await bcrypt.hash(userData.password, 12);
+  return User.create({ ...userData, password: passwordHash });
 }
 
 //put
@@ -54,7 +63,7 @@ export async function updateUser(id, updatedUserData) {
   user.isActive = isActive;
   user.isAccountBlocked = isAccountBlocked;
 
-  return await user.save();
+  return user.save();
 }
 
 //patch
@@ -85,7 +94,7 @@ export async function partialUpdateUser(id, updatedUserData) {
   validEntries.forEach(([key, value]) => {
     user[key] = value;
   });
-  return await user.save();
+  return user.save();
 }
 
 //delete
@@ -95,5 +104,4 @@ export async function deleteUser(id) {
   if (!user) throw new NotFoundError("Usuario no encontrado");
 
   await user.deleteOne();
-  return user;
 }

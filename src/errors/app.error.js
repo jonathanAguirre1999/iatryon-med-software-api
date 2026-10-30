@@ -35,6 +35,12 @@ export class ForbiddenError extends AppError {
   }
 }
 
+export class ValidationError extends AppError {
+  constructor(message = "Error de validación") {
+    super(message, 422);
+  }
+}
+
 export class InternalServerError extends AppError {
   constructor(message = "Error interno del servidor") {
     super(message, 500);

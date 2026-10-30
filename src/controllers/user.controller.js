@@ -34,7 +34,7 @@ export async function updateUser(req, res) {
 export async function patchUser(req, res) {
   const { id } = req.params;
   const updatedFields = req.body;
-  const updatedUser = await userService.patchUser(id, updatedFields);
+  const updatedUser = await userService.partialUpdateUser(id, updatedFields);
   return res.status(200).json(toUserDTO(updatedUser));
 }
 

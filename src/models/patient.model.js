@@ -13,7 +13,6 @@ const patientSchema = new mongoose.Schema(
 
     middleName: {
       type: String,
-      required: true,
       trim: true,
       uppercase: true,
       minlength: 1,
@@ -31,7 +30,6 @@ const patientSchema = new mongoose.Schema(
 
     secondLastName: {
       type: String,
-      required: true,
       trim: true,
       uppercase: true,
       minlength: 1,
@@ -54,6 +52,7 @@ const patientSchema = new mongoose.Schema(
       type: String,
       lowercase: true,
       trim: true,
+      match: [/^\S+@\S+\.\S+$/, "Email inválido"],
     },
 
     country: {
@@ -86,7 +85,7 @@ const patientSchema = new mongoose.Schema(
 
     gender: {
       type: String,
-      enum: ["MASCULINO", "FEMENINO", "OTRO", "NO_ESPECIFICADO"],
+      enum: ["MASCULINO", "FEMENINO", "OTRO", "NO ESPECIFICADO"],
       required: true,
     },
 

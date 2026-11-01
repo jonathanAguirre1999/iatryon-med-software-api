@@ -1,4 +1,9 @@
 import { Patient } from "../models/patient.model.js";
+import {
+  NotFoundError,
+  BadRequestError,
+  ValidationError,
+} from "../errors/app.error.js";
 
 //get
 export async function getPatientById(id) {
@@ -8,14 +13,16 @@ export async function getPatientById(id) {
 }
 
 //getall
-export async function getAllPatients() {
-  return await Patient.find();
+export function getAllPatients() {
+  return Patient.find();
 }
 
 //post
 export async function createPatient(patientData) {
-  if (!patientData) throw new BadRequestError("Datos de paciente inválidos");
-  return await Patient.create(patientData);
+  if (!patientData || Object.keys(patientData).length === 0)
+    throw new BadRequestError("Datos de paciente inválidos");
+
+  return Patient.create(patientData);
 }
 
 //put
@@ -53,13 +60,11 @@ export async function updatePatient(id, updatedPatientData) {
     !city ||
     !stateProvince ||
     !address ||
-    !email ||
     !gender ||
     !birthDate ||
     !phone ||
     !educationLevel ||
-    !occupation ||
-    isActive === undefined
+    !occupation
   ) {
     throw new ValidationError("Todos los campos requeridos deben ser enviados");
   }
@@ -76,7 +81,12 @@ export async function updatePatient(id, updatedPatientData) {
   patient.address = address;
   patient.gender = gender;
   patient.email = email;
-  return await patient.save();
+  patient.birthDate = birthDate;
+  patient.phone = phone;
+  patient.educationLevel = educationLevel;
+  patient.occupation = occupation;
+
+  return patient.save();
 }
 
 //patch
@@ -101,7 +111,6 @@ export async function partialUpdatePatient(id, updatedPatientData) {
     "phone",
     "educationLevel",
     "occupation",
-    "isActive",
   ];
 
   const validEntries = Object.entries(updatedPatientData).filter(
@@ -118,7 +127,7 @@ export async function partialUpdatePatient(id, updatedPatientData) {
     patient[key] = value;
   });
 
-  return await patient.save();
+  return patient.save();
 }
 
 //delete
@@ -127,5 +136,5 @@ export async function deletePatient(id) {
 
   if (!patient) throw new NotFoundError("Paciente no encontrado");
 
-  await patient.deleteOne();
+  return patient.deleteOne();
 }

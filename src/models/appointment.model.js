@@ -1,23 +1,29 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const appointmentSchema = new mongoose.Schema(
   {
     patientId: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'Patient',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Patient",
       required: true,
     },
 
     doctorId: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'User',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
 
-    type: {
+    appointmentType: {
       type: String,
-      enum: ['PRIMERA_VEZ', 'SEGUIMIENTO'],
-      default: 'PRIMERA VEZ',
+      enum: ["PRIMERA VEZ", "SEGUIMIENTO"],
+      required: true,
+    },
+
+    duration: {
+      type: Number,
+      enum: [40, 20],
+      required: true,
     },
 
     startAt: {
@@ -30,16 +36,10 @@ const appointmentSchema = new mongoose.Schema(
       required: true,
     },
 
-    duration: {
-      type: Number,
-      enum: [40, 20],
-      default: 40,
-    },
-
     status: {
       type: String,
-      enum: ['RESERVADA', 'PAGADA', 'ASISTE', 'NO_ASISTE', 'CANCELADA'],
-      default: 'RESERVADA',
+      enum: ["RESERVADA", "PAGADA", "ASISTE", "NO ASISTE", "CANCELADA"],
+      default: "RESERVADA",
     },
 
     reason: {
@@ -49,17 +49,17 @@ const appointmentSchema = new mongoose.Schema(
     },
 
     createdBy: {
-      type: mongoose.Schema.ObjectId,
-      ref: 'User',
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 appointmentSchema.index({ doctorId: 1, startAt: 1 });
 appointmentSchema.index({ patientId: 1, startAt: 1 });
 
-export const Appointment = mongoose.model('Appointment', appointmentSchema);
+export const Appointment = mongoose.model("Appointment", appointmentSchema);

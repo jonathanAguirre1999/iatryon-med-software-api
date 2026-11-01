@@ -3,23 +3,28 @@ import "dotenv/config";
 import { connectDatabase } from "./config/database.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import userRoutes from "./routes/user.routes.js";
+import patientRoutes from "./routes/patient.routes.js";
+import appointmentRoutes from "./routes/appointment.routes.js";
+import authRoutes from "./auth/auth.routes.js";
+import sessionConfig from "./config/session.js";
+import { requireAuth } from "./middlewares/requireAuth.middleware.js";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
-//routes
+app.use(sessionConfig);
+
+// Rutas públicas
+app.use("/api/auth", authRoutes);
+
+app.use(requireAuth);
+
+// Rutas protegidas
 app.use("/api/users", userRoutes);
+app.use("/api/patients", patientRoutes);
+app.use("/api/appointments", appointmentRoutes);
 
 app.use(errorHandler);
 
-async function startServer() {
-  await connectDatabase();
-
-  app.listen(PORT, () => {
-    console.log(`Server up at: http://localhost:${PORT}`);
-  });
-}
-
-startServer();
+export default app;

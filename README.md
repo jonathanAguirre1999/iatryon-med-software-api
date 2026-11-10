@@ -268,6 +268,24 @@ http://localhost:3000
 
 Colección de Postman incluida para pruebas de distintos escenarios.
 
+## SEEDING
+
+### Datos de prueba
+
+El entorno incluye un archivo seed para poblar la base de datos con algunos datos de prueba, incluyendo usuarios, pacientes y citas.
+
+```
+npm run seed
+```
+
+El comando elimina los usuarios, pacientes y citas existentes
+antes de generar nuevamente los datos de demostración.
+
+Credenciales:
+ADMIN: admin / Iatryon123!
+DOCTOR: doctor01 / Iatryon123!
+RECEPTIONIST: recepcion01 / Iatryon123!
+
 ## API
 
 ### Autenticación

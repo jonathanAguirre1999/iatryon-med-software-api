@@ -6,6 +6,7 @@ import userRoutes from "./routes/user.routes.js";
 import patientRoutes from "./routes/patient.routes.js";
 import appointmentRoutes from "./routes/appointment.routes.js";
 import authRoutes from "./auth/auth.routes.js";
+import healthcheckRoutes from "./routes/healthcheck.routes.js";
 import sessionConfig from "./config/session.js";
 import { requireAuth } from "./middlewares/requireAuth.middleware.js";
 
@@ -17,6 +18,7 @@ app.use(sessionConfig);
 
 // Rutas públicas
 app.use("/api/auth", authRoutes);
+app.use("/api/healthcheck", healthcheckRoutes);
 
 app.use(requireAuth);
 

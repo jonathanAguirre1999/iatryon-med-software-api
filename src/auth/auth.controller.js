@@ -9,11 +9,24 @@ export async function login(req, res) {
 
   req.session.user = {
     id: user._id,
+    userName: user.userName,
     role: user.role,
   };
 
   getIO().emit("userLoggedIn", { userName: user.userName });
   return res.status(200).json({ message: "Inicio de sesión exitoso" });
+}
+
+export function me(req, res) {
+  if (!req.session.user) {
+    return res.status(401).json({ message: "No autenticado" });
+  }
+
+  return res.status(200).json({
+    id: req.session.user.id,
+    userName: req.session.user.userName,
+    role: req.session.user.role,
+  });
 }
 
 export function logout(req, res, next) {
@@ -22,10 +35,12 @@ export function logout(req, res, next) {
       return next(new InternalServerError("Error al cerrar sesión"));
     }
 
+    const isProduction = process.env.NODE_ENV === "production";
+
     res.clearCookie("iatryon_session.sid", {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
     });
 
     return res.status(200).json({ message: "Sesión cerrada exitosamente" });

@@ -2,6 +2,8 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import "dotenv/config";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const sessionConfig = session({
   name: "iatryon_session.sid",
   secret: process.env.SESSION_SECRET,
@@ -14,8 +16,8 @@ const sessionConfig = session({
   cookie: {
     maxAge: 1000 * 60 * 60,
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
   },
 });
 

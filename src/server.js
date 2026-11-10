@@ -10,9 +10,15 @@ const PORT = process.env.PORT || 3000;
 
 const httpServer = createServer(app);
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL,
+].filter(Boolean);
+
 const io = new Server(httpServer, {
   cors: {
-    origin: "*",
+    origin: allowedOrigins,
+    credentials: true,
   },
 });
 

@@ -15,8 +15,8 @@ export function toAppointmentDTO(appointment) {
     },
 
     appointmentType: appointment.appointmentType,
-    startAt: formatDate(appointment.startAt),
-    endAt: formatDate(appointment.endAt),
+    startAt: appointment.startAt,
+    endAt: appointment.endAt,
     duration: appointment.duration,
     reason: appointment.reason ?? "",
     status: appointment.status,
@@ -27,18 +27,4 @@ export function toAppointmentDTO(appointment) {
       fullName: appointment.createdBy.fullName,
     },
   };
-}
-
-//helper para las fechas
-function formatDate(date) {
-  const d = new Date(date);
-
-  const year = d.getFullYear();
-  const month = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-
-  const hours = String(d.getHours()).padStart(2, "0");
-  const minutes = String(d.getMinutes()).padStart(2, "0");
-
-  return `${day}/${month}/${year} - ${hours}:${minutes}`;
 }

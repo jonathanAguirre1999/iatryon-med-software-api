@@ -34,10 +34,10 @@ router.patch(
   appointmentController.patchAppointment,
 );
 
-router.delete(
-  "/:id",
-  requireRole("ADMIN"),
-  appointmentController.deleteAppointment,
-);
+//router.delete(
+//  "/:id",
+//  requireRole("ADMIN"),
+//  appointmentController.deleteAppointment,
+//);
 
 export default router;

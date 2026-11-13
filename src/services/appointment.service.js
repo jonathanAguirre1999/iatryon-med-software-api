@@ -196,10 +196,10 @@ export async function partialUpdateAppointment(id, updatedFields) {
 }
 
 //delete
-export async function deleteAppointment(id) {
-  const appointment = await getAppointmentById(id);
-  return appointment.deleteOne();
-}
+//export async function deleteAppointment(id) {
+//  const appointment = await getAppointmentById(id);
+//  return appointment.deleteOne();
+//}
 
 // ----------------------------- validadores ------------------------------
 

@@ -7,14 +7,14 @@ import {
 
 //get
 export async function getPatientById(id) {
-  const patient = await Patient.findById(id);
+  const patient = await Patient.findOne({ _id: id, isActive: true });
   if (!patient) throw new NotFoundError("Paciente no encontrado");
   return patient;
 }
 
 //getall
 export function getAllPatients() {
-  return Patient.find();
+  return Patient.find({ isActive: true });
 }
 
 //post
@@ -132,9 +132,11 @@ export async function partialUpdatePatient(id, updatedPatientData) {
 
 //delete
 export async function deletePatient(id) {
-  const patient = await Patient.findById(id);
+  const patient = await Patient.findByIdAndUpdate(
+    id,
+    { isActive: false },
+    { new: true },
+  );
 
   if (!patient) throw new NotFoundError("Paciente no encontrado");
-
-  return patient.deleteOne();
 }

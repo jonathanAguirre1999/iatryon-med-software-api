@@ -66,7 +66,7 @@ Las respuestas de determinadas entidades se transforman mediante mappers antes d
 - Consulta individual y general
 - Actualización completa mediante PUT
 - Actualización parcial mediante PATCH
-- Eliminación de usuarios
+- Eliminación de usuarios (soft)
 - Hash seguro de contraseñas mediante bcrypt
 - Restricción de operaciones según rol
 - Validación de datos mediante Mongoose
@@ -77,7 +77,7 @@ Las respuestas de determinadas entidades se transforman mediante mappers antes d
 - Consulta individual y general
 - Actualización completa mediante PUT
 - Actualización parcial mediante PATCH
-- Eliminación de pacientes
+- Eliminación de pacientes (soft)
 - Validaciones de datos personales y de identificación
 - Control de acceso basado en roles
 
@@ -87,7 +87,6 @@ Las respuestas de determinadas entidades se transforman mediante mappers antes d
 - Consulta individual y general
 - Actualización completa mediante PUT
 - Actualización parcial mediante PATCH
-- Eliminación de citas
 - Tipos de cita:
   - PRIMERA VEZ: 40 minutos
   - SEGUIMIENTO: 20 minutos
@@ -344,7 +343,6 @@ GET    /api/appointments/:id
 POST   /api/appointments
 PUT    /api/appointments/:id
 PATCH  /api/appointments/:id
-DELETE /api/appointments/:id
 ```
 
 Ejemplo de creación de cita:

@@ -23,6 +23,14 @@ export async function getAppointmentById(req, res) {
 //get all
 export async function getAllAppointments(req, res) {
   const appointments = await appointmentService.getAllAppointments();
+  console.log(
+    appointments.map((appointment) => ({
+      appointmentId: appointment._id,
+      patientId: appointment.patientId,
+      doctorId: appointment.doctorId,
+      createdBy: appointment.createdBy,
+    })),
+  );
   return res.status(200).json(appointments.map(toAppointmentDTO));
 }
 
@@ -49,8 +57,8 @@ export async function patchAppointment(req, res) {
 }
 
 //delete
-export async function deleteAppointment(req, res) {
-  const { id } = req.params;
-  await appointmentService.deleteAppointment(id);
-  return res.status(204).send();
-}
+//export async function deleteAppointment(req, res) {
+//  const { id } = req.params;
+//  await appointmentService.deleteAppointment(id);
+//  return res.status(204).send();
+//}

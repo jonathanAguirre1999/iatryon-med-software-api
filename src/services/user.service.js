@@ -8,14 +8,14 @@ import {
 
 //get
 export async function getUserById(id) {
-  const foundUser = await User.findById(id);
+  const foundUser = await User.findOne({ _id: id }, { isActive: true });
   if (!foundUser) throw new NotFoundError("Usuario no encontrado");
   return foundUser;
 }
 
 //getall
 export function getAllUsers() {
-  return User.find();
+  return User.find({ isActive: true });
 }
 
 //post
@@ -99,9 +99,11 @@ export async function partialUpdateUser(id, updatedUserData) {
 
 //delete
 export async function deleteUser(id) {
-  const user = await User.findById(id);
+  const user = await User.findByIdAndUpdate(
+    id,
+    { isActive: false },
+    { new: true },
+  );
 
   if (!user) throw new NotFoundError("Usuario no encontrado");
-
-  await user.deleteOne();
 }

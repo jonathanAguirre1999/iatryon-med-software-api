@@ -76,15 +76,13 @@ export async function getAllAppointments() {
 export async function updateAppointment(id, updatedData) {
   const appointment = await getAppointmentById(id);
 
-  const { patientId, doctorId, appointmentType, startAt, status, reason } =
-    updatedData;
+  const { patientId, doctorId, appointmentType, startAt, reason } = updatedData;
 
   if (
     !patientId ||
     !doctorId ||
     !appointmentType ||
     !startAt ||
-    !status ||
     reason === undefined
   ) {
     throw new ValidationError("Todos los campos requeridos deben ser enviados");
@@ -134,7 +132,6 @@ export async function partialUpdateAppointment(id, updatedFields) {
     "patientId",
     "doctorId",
     "appointmentType",
-    "status",
     "startAt",
     "reason",
   ];
@@ -191,6 +188,39 @@ export async function partialUpdateAppointment(id, updatedFields) {
   if (updatedFields.reason !== undefined) {
     appointment.reason = updatedFields.reason;
   }
+
+  await appointment.save();
+  await populateData(appointment);
+
+  return appointment;
+}
+
+//patch para cambio de status
+export async function appointmentStatusChange(id, newStatus) {
+  const appointment = await getAppointmentById(id);
+
+  if (!newStatus)
+    throw new BadRequestError("La información enviada es incorrecta");
+
+  const statusTransitions = {
+    RESERVADA: ["PAGADA", "CANCELADA"],
+    PAGADA: ["ASISTE", "NO ASISTE", "CANCELADA"],
+    ASISTE: [],
+    "NO ASISTE": [],
+    CANCELADA: [],
+  };
+
+  const allowedStatuses = statusTransitions[appointment.status];
+
+  if (!allowedStatuses)
+    throw new ValidationError(`Estado actual inválido: ${appointment.status}`);
+
+  if (!allowedStatuses.includes(newStatus))
+    throw new ConflictError(
+      `No se puede cambiar una cita de ${appointment.status} a ${newStatus}`,
+    );
+
+  appointment.status = newStatus;
 
   await appointment.save();
   await populateData(appointment);

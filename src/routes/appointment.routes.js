@@ -34,6 +34,12 @@ router.patch(
   appointmentController.patchAppointment,
 );
 
+router.patch(
+  "/:id/status",
+  requireRole("ADMIN", "RECEPTIONIST"),
+  appointmentController.appointmentStatusChange,
+);
+
 //router.delete(
 //  "/:id",
 //  requireRole("ADMIN"),

@@ -56,6 +56,17 @@ export async function patchAppointment(req, res) {
   return res.status(200).json(toAppointmentDTO(updatedAppointment));
 }
 
+//status change
+export async function appointmentStatusChange(req, res) {
+  const { id } = req.params;
+  const { status } = req.body;
+  const updatedAppointment = await appointmentService.appointmentStatusChange(
+    id,
+    status,
+  );
+  return res.status(200).json(toAppointmentDTO(updatedAppointment));
+}
+
 //delete
 //export async function deleteAppointment(req, res) {
 //  const { id } = req.params;

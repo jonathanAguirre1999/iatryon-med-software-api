@@ -76,13 +76,15 @@ export async function getAllAppointments() {
 export async function updateAppointment(id, updatedData) {
   const appointment = await getAppointmentById(id);
 
-  const { patientId, doctorId, appointmentType, startAt, reason } = updatedData;
+  const { patientId, doctorId, appointmentType, startAt, status, reason } =
+    updatedData;
 
   if (
     !patientId ||
     !doctorId ||
     !appointmentType ||
     !startAt ||
+    !status ||
     reason === undefined
   ) {
     throw new ValidationError("Todos los campos requeridos deben ser enviados");
@@ -132,6 +134,7 @@ export async function partialUpdateAppointment(id, updatedFields) {
     "patientId",
     "doctorId",
     "appointmentType",
+    "status",
     "startAt",
     "reason",
   ];

@@ -8,7 +8,7 @@ import {
 
 //get
 export async function getUserById(id) {
-  const foundUser = await User.findOne({ _id: id }, { isActive: true });
+  const foundUser = await User.findOne({ _id: id, isActive: true });
   if (!foundUser) throw new NotFoundError("Usuario no encontrado");
   return foundUser;
 }

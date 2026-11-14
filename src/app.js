@@ -6,6 +6,7 @@ import patientRoutes from "./routes/patient.routes.js";
 import appointmentRoutes from "./routes/appointment.routes.js";
 import authRoutes from "./auth/auth.routes.js";
 import healthcheckRoutes from "./routes/healthcheck.routes.js";
+import doctorScheduleRoutes from "./routes/doctorSchedule.routes.js";
 import sessionConfig from "./config/session.js";
 import { requireAuth } from "./middlewares/requireAuth.middleware.js";
 import cors from "cors";
@@ -41,6 +42,7 @@ app.use(requireAuth);
 app.use("/api/users", userRoutes);
 app.use("/api/patients", patientRoutes);
 app.use("/api/appointments", appointmentRoutes);
+app.use("/api/doctors", doctorScheduleRoutes);
 
 app.use(errorHandler);
 

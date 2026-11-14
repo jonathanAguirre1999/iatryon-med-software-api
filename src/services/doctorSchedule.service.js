@@ -92,6 +92,24 @@ export async function setDoctorSchedule(doctorId, dayOfWeek, blocks) {
 
   validateScheduleBlocks(blocks);
 
+  if (blocks.length === 0) {
+    return DoctorSchedule.findOneAndUpdate(
+      {
+        doctorId,
+        dayOfWeek,
+      },
+      {
+        blocks: [],
+        isActive: false,
+      },
+      {
+        new: true,
+        upsert: true,
+        runValidators: true,
+      },
+    );
+  }
+
   return DoctorSchedule.findOneAndUpdate(
     {
       doctorId,

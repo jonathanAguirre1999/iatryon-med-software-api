@@ -9,8 +9,13 @@ router.get(
   requireRole("ADMIN", "DOCTOR", "RECEPTIONIST"),
   userController.getDoctors,
 );
-router.get("/:id", requireRole("ADMIN"), userController.getUserById);
 router.get("/", requireRole("ADMIN"), userController.getAllUsers);
+router.get(
+  "/inactive",
+  requireRole("ADMIN"),
+  userController.getAllInactiveUsers,
+);
+router.get("/:id", requireRole("ADMIN"), userController.getUserById);
 router.post("/", requireRole("ADMIN"), userController.createUser);
 router.put("/:id", requireRole("ADMIN"), userController.updateUser);
 router.patch("/:id", requireRole("ADMIN"), userController.patchUser);

@@ -16,6 +16,12 @@ export async function getAllUsers(req, res) {
   return res.status(200).json(users.map(toUserDTO));
 }
 
+//get inactive
+export async function getAllInactiveUsers(req, res) {
+  const users = await userService.getAllInactiveUsers();
+  return res.status(200).json(users.map(toUserDTO));
+}
+
 //get doctors
 export async function getDoctors(req, res) {
   const doctors = await userService.getDoctors();

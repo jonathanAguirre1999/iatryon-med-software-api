@@ -18,6 +18,11 @@ export function getAllUsers() {
   return User.find({ isActive: true });
 }
 
+//get inactive
+export function getAllInactiveUsers() {
+  return User.find({ isActive: false });
+}
+
 //post
 export async function createUser(userData) {
   if (!userData || Object.keys(userData).length === 0)

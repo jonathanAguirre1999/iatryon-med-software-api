@@ -6,6 +6,11 @@ const router = Router();
 
 router.get("/:id", requireRole("ADMIN"), userController.getUserById);
 router.get("/", requireRole("ADMIN"), userController.getAllUsers);
+router.get(
+  "/doctors",
+  requireRole("ADMIN", "DOCTOR", "RECEPTIONIST"),
+  userController.getDoctors,
+);
 router.post("/", requireRole("ADMIN"), userController.createUser);
 router.put("/:id", requireRole("ADMIN"), userController.updateUser);
 router.patch("/:id", requireRole("ADMIN"), userController.patchUser);

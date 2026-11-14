@@ -110,7 +110,7 @@ export async function deleteUser(id) {
 
 //get doctors
 export async function getDoctors() {
-  return User.find({ isActive: true }, { role: "DOCTOR" }).select(
+  return User.find({ isActive: true, role: "DOCTOR" }).select(
     "_id fullName userName",
   );
 }

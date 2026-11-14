@@ -161,6 +161,16 @@ export async function getDoctorSchedule(doctorId, dayOfWeek) {
   });
 }
 
+export async function getDoctorFullSchedules(doctorId) {
+  await validateDoctor(doctorId);
+
+  const schedules = await DoctorSchedule.find({
+    doctorId,
+    isActive: true,
+  }).sort({ dayOfWeek: 1 });
+
+  return schedules;
+}
 //--------------------------- validations ------------------------------------------//
 async function validateDoctor(doctorId) {
   const doctor = await getUserById(doctorId);

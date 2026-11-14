@@ -4,6 +4,10 @@ import * as doctorScheduleController from "../controllers/doctorSchedule.control
 
 const router = Router();
 
+router.get(
+  "/:doctorId/schedule",
+  doctorScheduleController.getDoctorFullSchedules,
+);
 router.get("/:doctorId/availability", doctorScheduleController.getAvailability);
 router.put(
   "/:doctorId/schedule/:dayOfWeek",

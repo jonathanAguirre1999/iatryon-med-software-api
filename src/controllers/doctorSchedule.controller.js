@@ -34,3 +34,12 @@ export async function setSchedule(req, res) {
 
   return res.status(200).json(schedule);
 }
+
+export async function getDoctorFullSchedules(req, res) {
+  const { doctorId } = req.params;
+
+  const schedules =
+    await doctorScheduleService.getDoctorFullSchedules(doctorId);
+
+  return res.status(200).json(schedules);
+}

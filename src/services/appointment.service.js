@@ -239,10 +239,6 @@ export async function appointmentStatusChange(id, newStatus) {
 async function validateDoctor(doctorId) {
   const doctor = await getUserById(doctorId);
 
-  console.log("DOCTOR ID:", doctorId);
-  console.log("USUARIO:", doctor.userName);
-  console.log("ROL:", doctor.role);
-
   if (doctor.role !== "DOCTOR") {
     throw new ValidationError("El usuario no es un doctor");
   }

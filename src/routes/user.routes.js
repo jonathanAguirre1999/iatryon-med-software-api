@@ -14,6 +14,15 @@ router.get("/", requireRole("ADMIN"), userController.getAllUsers);
 router.post("/", requireRole("ADMIN"), userController.createUser);
 router.put("/:id", requireRole("ADMIN"), userController.updateUser);
 router.patch("/:id", requireRole("ADMIN"), userController.patchUser);
-router.delete("/:id", requireRole("ADMIN"), userController.deleteUser);
+router.patch(
+  "/:id/status",
+  requireRole("ADMIN"),
+  userController.changeActiveStatus,
+);
+router.patch(
+  "/:id/block",
+  requireRole("ADMIN"),
+  userController.changeBlockStatus,
+);
 
 export default router;

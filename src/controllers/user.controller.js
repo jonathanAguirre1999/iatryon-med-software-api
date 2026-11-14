@@ -1,5 +1,6 @@
 import * as userService from "../services/user.service.js";
 import { toUserDTO } from "../mappers/user.mapper.js";
+import { ValidationError } from "../errors/app.error.js";
 
 //get
 export async function getUserById(req, res) {
@@ -51,9 +52,35 @@ export async function patchUser(req, res) {
   return res.status(200).json(toUserDTO(updatedUser));
 }
 
-//delete
-export async function deleteUser(req, res) {
+////delete
+//export async function deleteUser(req, res) {
+//  const { id } = req.params;
+//  await userService.deleteUser(id);
+//  return res.status(204).send();
+//}
+
+export async function changeActiveStatus(req, res) {
   const { id } = req.params;
-  await userService.deleteUser(id);
-  return res.status(204).send();
+  const { isActive } = req.body;
+
+  if (req.session.user.id === id) {
+    throw new ValidationError("No puedes desactivarte a tí mismo");
+  }
+
+  const updated = await userService.changeActiveStatus(id, isActive);
+
+  return res.status(200).json(toUserDTO(updated));
+}
+
+export async function changeBlockStatus(req, res) {
+  const { id } = req.params;
+  const { isAccountBlocked } = req.body;
+
+  if (req.session.user.id === id) {
+    throw new ValidationError("No puedes bloquearte a tí mismo");
+  }
+
+  const updated = await userService.changeBlockStatus(id, isAccountBlocked);
+
+  return res.status(200).json(toUserDTO(updated));
 }

@@ -97,20 +97,37 @@ export async function partialUpdateUser(id, updatedUserData) {
   return user.save();
 }
 
-//delete
-export async function deleteUser(id) {
-  const user = await User.findByIdAndUpdate(
-    id,
-    { isActive: false },
-    { new: true },
-  );
-
-  if (!user) throw new NotFoundError("Usuario no encontrado");
-}
+////delete
+//export async function deleteUser(id) {
+//  const user = await User.findByIdAndUpdate(
+//    id,
+//    { isActive: false },
+//    { new: true },
+//  );
+//
+//  if (!user) throw new NotFoundError("Usuario no encontrado");
+//}
 
 //get doctors
 export async function getDoctors() {
   return User.find({ isActive: true, role: "DOCTOR" }).select(
     "_id fullName userName",
   );
+}
+
+//status change
+export async function changeActiveStatus(id, isActive) {
+  const user = await User.findById(id);
+
+  user.isActive = isActive;
+
+  return user.save();
+}
+
+export async function changeBlockStatus(id, isAccountBlocked) {
+  const user = await User.findById(id);
+
+  user.isAccountBlocked = isAccountBlocked;
+
+  return user.save();
 }

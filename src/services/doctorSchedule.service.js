@@ -111,24 +111,6 @@ export async function setDoctorSchedule(doctorId, dayOfWeek, blocks) {
   );
 }
 
-function validateScheduleBlocks(blocks) {
-  if (!Array.isArray(blocks) || blocks.length === 0) {
-    throw new ValidationError("Debe existir al menos un bloque horario");
-  }
-
-  for (const block of blocks) {
-    if (!block.start || !block.end) {
-      throw new ValidationError("Cada bloque debe tener hora de inicio y fin");
-    }
-
-    if (block.start >= block.end) {
-      throw new ValidationError(
-        "La hora de inicio debe ser menor que la hora de fin",
-      );
-    }
-  }
-}
-
 function getAppointmentDuration(appointmentType) {
   if (appointmentType === "PRIMERA VEZ") {
     return 40;
@@ -184,4 +166,22 @@ async function validateDoctor(doctorId) {
   }
 
   return doctor;
+}
+
+function validateScheduleBlocks(blocks) {
+  if (!Array.isArray(blocks)) {
+    throw new ValidationError("Los bloques horarios deben ser un arreglo");
+  }
+
+  for (const block of blocks) {
+    if (!block.start || !block.end) {
+      throw new ValidationError("Cada bloque debe tener hora de inicio y fin");
+    }
+
+    if (block.start >= block.end) {
+      throw new ValidationError(
+        "La hora de inicio debe ser menor que la hora de fin",
+      );
+    }
+  }
 }

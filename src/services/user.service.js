@@ -107,3 +107,10 @@ export async function deleteUser(id) {
 
   if (!user) throw new NotFoundError("Usuario no encontrado");
 }
+
+//get doctors
+export async function getDoctors() {
+  return User.find({ isActive: true }, { role: "DOCTOR" }).select(
+    "_id fullName userName",
+  );
+}

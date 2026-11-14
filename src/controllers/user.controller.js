@@ -15,6 +15,19 @@ export async function getAllUsers(req, res) {
   return res.status(200).json(users.map(toUserDTO));
 }
 
+//get doctors
+export async function getDoctors(req, res) {
+  const doctors = await userService.getDoctors();
+
+  return res.status(200).json(
+    doctors.map((doctor) => ({
+      id: doctor._id,
+      fullName: doctor.fullName,
+      userName: doctor.userName,
+    })),
+  );
+}
+
 //post
 export async function createUser(req, res) {
   const userData = req.body;
